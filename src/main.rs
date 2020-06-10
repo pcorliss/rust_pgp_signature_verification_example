@@ -1,17 +1,25 @@
-// #[macro_use]
-// extern crate pgp;
-
 use std::fs::File;
-// use std::io::{Cursor, Read};
-
-// use pgp::composed::{Deserializable, Message, SignedPublicKey, SignedSecretKey};
-use pgp::composed::{SignedPublicKey, Deserializable};
-// use pgp::types::KeyTrait;
+use pgp::composed::{SignedPublicKey, Deserializable, StandaloneSignature};
 
 fn main() {
     println!("Hello, world!");
-    let res = SignedPublicKey::from_armor_single(
+    let (public_key, _) = SignedPublicKey::from_armor_single(
         File::open("./bigdevbox_public.asc").unwrap(),
+    ).unwrap();
+
+    let (sig, _) = StandaloneSignature::from_armor_single(
+        File::open("./cake.txt.sig").unwrap(),
+    ).unwrap();
+
+    let res = sig.verify(
+        &public_key,
+        &std::fs::read("./cake.txt").unwrap(),
     );
-    println!("Result: {:?}", res);
+    println!("Verify cake.txt cake.txt.sig: {:?}", res);
+
+    let res = sig.verify(
+        &public_key,
+        &std::fs::read("./pie.txt").unwrap(),
+    );
+    println!("Verify pie.txt cake.txt.sig: {:?}", res);
 }
