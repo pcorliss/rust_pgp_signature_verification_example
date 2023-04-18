@@ -1,10 +1,10 @@
 [package]
 name = "rust_signature_verify_example"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Philip Corliss <pcorliss@50projects.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-pgp = "0.5.2"
+pgp = "0.10.1"
